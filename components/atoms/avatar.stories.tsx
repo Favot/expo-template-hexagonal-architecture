@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { View } from "react-native";
 import { Avatar, AvatarFallback, AvatarImage } from "./avatar";
-
+import { Text } from "./text";
 const meta: Meta<typeof Avatar> = {
   title: "Atoms/Avatar",
   component: Avatar,
@@ -15,7 +15,9 @@ export const Default: Story = {
   render: () => (
     <Avatar alt="User avatar">
       <AvatarImage source={{ uri: "https://github.com/shadcn.png" }} />
-      <AvatarFallback>CN</AvatarFallback>
+      <AvatarFallback>
+        <Text>CN</Text>
+      </AvatarFallback>
     </Avatar>
   ),
 };
@@ -31,7 +33,9 @@ export const WithImageOnly: Story = {
 export const WithFallbackOnly: Story = {
   render: () => (
     <Avatar alt="User avatar" className="h-10 w-10">
-      <AvatarFallback>JD</AvatarFallback>
+      <AvatarFallback>
+        <Text>JD</Text>
+      </AvatarFallback>
     </Avatar>
   ),
 };
@@ -41,14 +45,20 @@ export const MultipleAvatars: Story = {
     <View style={{ flexDirection: "row", gap: 16 }}>
       <Avatar alt="First user avatar">
         <AvatarImage source={{ uri: "https://github.com/shadcn.png" }} />
-        <AvatarFallback>CN</AvatarFallback>
+        <AvatarFallback>
+          <Text>CN</Text>
+        </AvatarFallback>
       </Avatar>
       <Avatar alt="Second user avatar">
         <AvatarImage source={{ uri: "https://github.com/radix-ui.png" }} />
-        <AvatarFallback>RU</AvatarFallback>
+        <AvatarFallback>
+          <Text>RU</Text>
+        </AvatarFallback>
       </Avatar>
       <Avatar alt="Third user avatar">
-        <AvatarFallback>JD</AvatarFallback>
+        <AvatarFallback>
+          <Text>JD</Text>
+        </AvatarFallback>
       </Avatar>
     </View>
   ),
