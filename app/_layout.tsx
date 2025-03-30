@@ -18,6 +18,7 @@ import i18n from "~/i18n/i18n";
 import { setAndroidNavigationBar } from "~/lib/android-navigation-bar";
 import { NAV_THEME } from "~/lib/constants";
 import { useColorScheme } from "~/lib/useColorScheme";
+import { useIsomorphicLayoutEffect } from "~/lib/useIsomorphicLayoutEffect";
 
 const LIGHT_THEME: Theme = {
   ...DefaultTheme,
@@ -76,12 +77,6 @@ function RootLayout() {
   );
 }
 
-const useIsomorphicLayoutEffect =
-  Platform.OS === "web" && typeof window === "undefined"
-    ? React.useEffect
-    : React.useLayoutEffect;
-
-// Only load Storybook when enabled
 let Layout = RootLayout;
 if (process.env.EXPO_PUBLIC_STORYBOOK_ENABLED === "true") {
   try {
