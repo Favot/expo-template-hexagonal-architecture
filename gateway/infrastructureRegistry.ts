@@ -1,16 +1,16 @@
-import { fetchClient } from './implementation/fetchImplementation';
-import { secureStorageClient } from './implementation/asyncStorageImplementation';
-import { RestClient } from './services/restClient';
-import { StorageClient } from './services/storageClient';
+import { fetchClient } from "./implementation/fetchImplementation";
+import { secureStorageClient } from "./implementation/asyncStorageImplementation";
+import { RestClient } from "./services/restClient";
+import { StorageClient } from "./services/storageClient";
 
 type InfrastructureRegistry = {
-  restClient: RestClient;
-  storageClient: StorageClient;
+	restClient: RestClient;
+	storageClient: StorageClient;
 };
 
 export const getInfrastructureRegistry = (): InfrastructureRegistry => {
-  return {
-    restClient: fetchClient,
-    storageClient: secureStorageClient,
-  };
+	return {
+		restClient: fetchClient,
+		storageClient: secureStorageClient,
+	};
 };

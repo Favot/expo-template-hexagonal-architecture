@@ -1,10 +1,10 @@
 import "~/global.css";
 
 import {
-  DarkTheme,
-  DefaultTheme,
-  Theme,
-  ThemeProvider,
+	DarkTheme,
+	DefaultTheme,
+	type Theme,
+	ThemeProvider,
 } from "@react-navigation/native";
 import { PortalHost } from "@rn-primitives/portal";
 import { Stack } from "expo-router";
@@ -21,69 +21,69 @@ import { useColorScheme } from "~/lib/useColorScheme";
 import { useIsomorphicLayoutEffect } from "~/lib/useIsomorphicLayoutEffect";
 
 const LIGHT_THEME: Theme = {
-  ...DefaultTheme,
-  colors: NAV_THEME.light,
+	...DefaultTheme,
+	colors: NAV_THEME.light,
 };
 const DARK_THEME: Theme = {
-  ...DarkTheme,
-  colors: NAV_THEME.dark,
+	...DarkTheme,
+	colors: NAV_THEME.dark,
 };
 
 export {
-  // Catch any errors thrown by the Layout component.
-  ErrorBoundary,
+	// Catch any errors thrown by the Layout component.
+	ErrorBoundary,
 } from "expo-router";
 
 function RootLayout() {
-  const hasMounted = useRef(false);
-  const { colorScheme, isDarkColorScheme } = useColorScheme();
-  const [isColorSchemeLoaded, setIsColorSchemeLoaded] = useState(false);
-  const { t } = useTranslation();
+	const hasMounted = useRef(false);
+	const { colorScheme, isDarkColorScheme } = useColorScheme();
+	const [isColorSchemeLoaded, setIsColorSchemeLoaded] = useState(false);
+	const { t } = useTranslation();
 
-  useIsomorphicLayoutEffect(() => {
-    if (hasMounted.current) {
-      return;
-    }
+	useIsomorphicLayoutEffect(() => {
+		if (hasMounted.current) {
+			return;
+		}
 
-    if (Platform.OS === "web") {
-      // Adds the background color to the html element to prevent white background on overscroll.
-      document.documentElement.classList.add("bg-background");
-    }
-    setAndroidNavigationBar(colorScheme);
-    setIsColorSchemeLoaded(true);
-    hasMounted.current = true;
-  }, []);
+		if (Platform.OS === "web") {
+			// Adds the background color to the html element to prevent white background on overscroll.
+			document.documentElement.classList.add("bg-background");
+		}
+		setAndroidNavigationBar(colorScheme);
+		setIsColorSchemeLoaded(true);
+		hasMounted.current = true;
+	}, []);
 
-  if (!isColorSchemeLoaded) {
-    return null;
-  }
+	if (!isColorSchemeLoaded) {
+		return null;
+	}
 
-  return (
-    <I18nextProvider i18n={i18n}>
-      <ThemeProvider value={isDarkColorScheme ? DARK_THEME : LIGHT_THEME}>
-        <StatusBar style={isDarkColorScheme ? "light" : "dark"} />
-        <Stack>
-          <Stack.Screen
-            name="index"
-            options={{
-              title: t("common.welcome"),
-              headerRight: () => <ThemeToggle />,
-            }}
-          />
-        </Stack>
-        <PortalHost />
-      </ThemeProvider>
-    </I18nextProvider>
-  );
+	return (
+		<I18nextProvider i18n={i18n}>
+			<ThemeProvider value={isDarkColorScheme ? DARK_THEME : LIGHT_THEME}>
+				<StatusBar style={isDarkColorScheme ? "light" : "dark"} />
+				<Stack>
+					<Stack.Screen
+						name="index"
+						options={{
+							title: t("common.welcome"),
+							headerRight: () => <ThemeToggle />,
+						}}
+					/>
+				</Stack>
+				<PortalHost />
+			</ThemeProvider>
+		</I18nextProvider>
+	);
 }
 
 let Layout = RootLayout;
 if (process.env.EXPO_PUBLIC_STORYBOOK_ENABLED === "true") {
-  try {
-    Layout = require("../.storybook").default;
-  } catch (error) {
-    console.warn("Failed to load Storybook:", error);
-  }
+	try {
+		Layout = require("../.storybook").default;
+	} catch (error) {
+		console.warn("Failed to load Storybook:", error);
+	}
 }
 
 const App = Layout;

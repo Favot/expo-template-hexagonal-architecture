@@ -2,11 +2,11 @@ import { FeatureFlagKey, FeatureFlippingService } from "~/domain";
 import { BOOLEAN_FEATURE_FLAG_MAP } from "~/lib/featureFlag";
 
 const isFeatureFlagActivated = async (
-  key: FeatureFlagKey
+	key: FeatureFlagKey,
 ): Promise<boolean> => {
-  return BOOLEAN_FEATURE_FLAG_MAP[key];
+	return BOOLEAN_FEATURE_FLAG_MAP[key];
 };
 
 export const ffServiceEnvVarImplementation: FeatureFlippingService = {
-  isFeatureFlagActivated,
+	isFeatureFlagActivated,
 };
