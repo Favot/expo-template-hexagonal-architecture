@@ -10,8 +10,11 @@ import { PortalHost } from "@rn-primitives/portal";
 import { Stack } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import * as React from "react";
+import { useRef, useState } from "react";
+import { I18nextProvider, useTranslation } from "react-i18next";
 import { Platform } from "react-native";
 import { ThemeToggle } from "~/components/ThemeToggle";
+import i18n from "~/i18n/i18n";
 import { setAndroidNavigationBar } from "~/lib/android-navigation-bar";
 import { NAV_THEME } from "~/lib/constants";
 import { useColorScheme } from "~/lib/useColorScheme";
@@ -31,9 +34,10 @@ export {
 } from "expo-router";
 
 function RootLayout() {
-  const hasMounted = React.useRef(false);
+  const hasMounted = useRef(false);
   const { colorScheme, isDarkColorScheme } = useColorScheme();
-  const [isColorSchemeLoaded, setIsColorSchemeLoaded] = React.useState(false);
+  const [isColorSchemeLoaded, setIsColorSchemeLoaded] = useState(false);
+  const { t } = useTranslation();
 
   useIsomorphicLayoutEffect(() => {
     if (hasMounted.current) {
@@ -54,19 +58,21 @@ function RootLayout() {
   }
 
   return (
-    <ThemeProvider value={isDarkColorScheme ? DARK_THEME : LIGHT_THEME}>
-      <StatusBar style={isDarkColorScheme ? "light" : "dark"} />
-      <Stack>
-        <Stack.Screen
-          name="index"
-          options={{
-            title: "Starter Base",
-            headerRight: () => <ThemeToggle />,
-          }}
-        />
-      </Stack>
-      <PortalHost />
-    </ThemeProvider>
+    <I18nextProvider i18n={i18n}>
+      <ThemeProvider value={isDarkColorScheme ? DARK_THEME : LIGHT_THEME}>
+        <StatusBar style={isDarkColorScheme ? "light" : "dark"} />
+        <Stack>
+          <Stack.Screen
+            name="index"
+            options={{
+              title: t("common.welcome"),
+              headerRight: () => <ThemeToggle />,
+            }}
+          />
+        </Stack>
+        <PortalHost />
+      </ThemeProvider>
+    </I18nextProvider>
   );
 }
 
