@@ -69,16 +69,22 @@ function RootLayout() {
     </ThemeProvider>
   );
 }
-console.log(
-  `🚀 ~ process.env.EXPO_PUBLIC_STORYBOOK_ENABLED === "true":`,
-  process.env.EXPO_PUBLIC_STORYBOOK_ENABLED === "true"
-);
-
-export default process.env.EXPO_PUBLIC_STORYBOOK_ENABLED === "true"
-  ? require("../.storybook").default
-  : RootLayout;
 
 const useIsomorphicLayoutEffect =
   Platform.OS === "web" && typeof window === "undefined"
     ? React.useEffect
     : React.useLayoutEffect;
+
+// Only load Storybook when enabled
+let Layout = RootLayout;
+if (process.env.EXPO_PUBLIC_STORYBOOK_ENABLED === "true") {
+  try {
+    Layout = require("../.storybook").default;
+  } catch (error) {
+    console.warn("Failed to load Storybook:", error);
+  }
+}
+
+const App = Layout;
+
+export default App;
