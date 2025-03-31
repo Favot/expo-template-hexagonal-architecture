@@ -1,7 +1,7 @@
-import { fetchClient } from "./implementation/fetchImplementation";
 import { secureStorageClient } from "./implementation/asyncStorageImplementation";
-import { RestClient } from "./services/restClient";
-import { StorageClient } from "./services/storageClient";
+import { fetchClient } from "./implementation/fetchImplementation";
+import type { RestClient } from "./services/restClient";
+import type { StorageClient } from "./services/storageClient";
 
 type InfrastructureRegistry = {
 	restClient: RestClient;

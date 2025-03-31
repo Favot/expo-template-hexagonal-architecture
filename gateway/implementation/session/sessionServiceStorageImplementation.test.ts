@@ -1,4 +1,4 @@
-import { Session } from "~/domain";
+import type { Session } from "~/domain";
 import * as infrastructureRegistry from "~/gateway/infrastructureRegistry";
 import { sessionServiceStorageImplementation } from "./sessionServiceStorageImplementation";
 

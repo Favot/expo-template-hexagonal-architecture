@@ -1,4 +1,4 @@
-import { Session, SessionService } from "~/domain";
+import type { Session, SessionService } from "~/domain";
 
 const getSession = async (): Promise<Session | null> => {
 	return new Promise((resolve) => {

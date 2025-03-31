@@ -6,43 +6,43 @@ import "@storybook/addon-ondevice-controls/register";
 import "@storybook/addon-ondevice-actions/register";
 
 const normalizedStories = [
-	{
-		titlePrefix: "",
-		directory: "./app",
-		files: "**/*.stories.?(ts|tsx|js|jsx)",
-		importPathMatcher:
-			/^\.(?:(?:^|\/|(?:(?:(?!(?:^|\/)\.).)*?)\/)(?!\.)(?=.)[^/]*?\.stories\.(?:ts|tsx|js|jsx)?)$/,
-		// @ts-ignore
-		req: require.context(
-			"../app",
-			true,
-			/^\.(?:(?:^|\/|(?:(?:(?!(?:^|\/)\.).)*?)\/)(?!\.)(?=.)[^/]*?\.stories\.(?:ts|tsx|js|jsx)?)$/,
-		),
-	},
-	{
-		titlePrefix: "",
-		directory: "./components",
-		files: "**/*.stories.?(ts|tsx|js|jsx)",
-		importPathMatcher:
-			/^\.(?:(?:^|\/|(?:(?:(?!(?:^|\/)\.).)*?)\/)(?!\.)(?=.)[^/]*?\.stories\.(?:ts|tsx|js|jsx)?)$/,
-		// @ts-ignore
-		req: require.context(
-			"../components",
-			true,
-			/^\.(?:(?:^|\/|(?:(?:(?!(?:^|\/)\.).)*?)\/)(?!\.)(?=.)[^/]*?\.stories\.(?:ts|tsx|js|jsx)?)$/,
-		),
-	},
+  {
+    titlePrefix: "",
+    directory: "./app",
+    files: "**/*.stories.?(ts|tsx|js|jsx)",
+    importPathMatcher:
+      /^\.(?:(?:^|\/|(?:(?:(?!(?:^|\/)\.).)*?)\/)(?!\.)(?=.)[^/]*?\.stories\.(?:ts|tsx|js|jsx)?)$/,
+    // @ts-ignore
+    req: require.context(
+      "../app",
+      true,
+      /^\.(?:(?:^|\/|(?:(?:(?!(?:^|\/)\.).)*?)\/)(?!\.)(?=.)[^/]*?\.stories\.(?:ts|tsx|js|jsx)?)$/
+    ),
+  },
+  {
+    titlePrefix: "",
+    directory: "./components",
+    files: "**/*.stories.?(ts|tsx|js|jsx)",
+    importPathMatcher:
+      /^\.(?:(?:^|\/|(?:(?:(?!(?:^|\/)\.).)*?)\/)(?!\.)(?=.)[^/]*?\.stories\.(?:ts|tsx|js|jsx)?)$/,
+    // @ts-ignore
+    req: require.context(
+      "../components",
+      true,
+      /^\.(?:(?:^|\/|(?:(?:(?!(?:^|\/)\.).)*?)\/)(?!\.)(?=.)[^/]*?\.stories\.(?:ts|tsx|js|jsx)?)$/
+    ),
+  },
 ];
 
 declare global {
-	var view: ReturnType<typeof start>;
-	var STORIES: typeof normalizedStories;
+  var view: ReturnType<typeof start>;
+  var STORIES: typeof normalizedStories;
 }
 
 const annotations = [
-	require("./preview"),
-	require("@storybook/react-native/preview"),
-	require("@storybook/addon-ondevice-actions/preview"),
+  require("./preview"),
+  require("@storybook/react-native/preview"),
+  require("@storybook/addon-ondevice-actions/preview"),
 ];
 
 global.STORIES = normalizedStories;
@@ -51,12 +51,12 @@ global.STORIES = normalizedStories;
 module?.hot?.accept?.();
 
 if (!global.view) {
-	global.view = start({
-		annotations,
-		storyEntries: normalizedStories,
-	});
+  global.view = start({
+    annotations,
+    storyEntries: normalizedStories,
+  });
 } else {
-	updateView(global.view, annotations, normalizedStories);
+  updateView(global.view, annotations, normalizedStories);
 }
 
 export const view = global.view;

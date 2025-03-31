@@ -1,20 +1,29 @@
 {
-	"common": {
-		"welcome": "Welcome",
-		"loading": "Loading...",
-		"error": "Error",
-		"success": "Success"
-	},
-	"auth": {
-		"signIn": "Sign In",
-		"signOut": "Sign Out",
-		"email": "Email",
-		"password": "Password"
-	},
-	"settings": {
-		"title": "Settings",
-		"language": "Language",
-		"theme": "Theme",
-		"darkMode": "Dark Mode"
-	}
+  "auth": {
+    "email": "Email",
+    "password": "Password",
+    "signIn": "Sign In",
+    "signOut": "Sign Out"
+  },
+  "common": {
+    "error": "Error",
+    "loading": "Loading...",
+    "success": "Success",
+    "welcome": "Welcome"
+  },
+  "form": {
+    "email": {
+      "invalidAdress": "Invalid email address"
+    },
+    "password": {
+      "lenghtRequirement": "Password must be at least 8 characters long",
+      "missMatch": "Passwords don't match"
+    }
+  },
+  "settings": {
+    "darkMode": "Dark Mode",
+    "language": "Language",
+    "theme": "Theme",
+    "title": "Settings"
+  }
 }
