@@ -24,7 +24,11 @@ export default function LoginForm() {
 		},
 		resolver: zodResolver(loginForm),
 	});
-	const onSubmit = (data: LoginFormShema) => console.log(data);
+	const onSubmit = () => {
+		handleSubmit((data) => {
+			console.log(data);
+		})();
+	};
 
 	return (
 		<Card>
@@ -43,7 +47,7 @@ export default function LoginForm() {
 				/>
 			</CardContent>
 			<CardFooter>
-				<Button onPress={handleSubmit(onSubmit)}>
+				<Button onPress={onSubmit} aria-label="Submit">
 					<Text>Submit</Text>
 				</Button>
 			</CardFooter>
