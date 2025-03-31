@@ -16,7 +16,6 @@ const resources = {
 
 const getLocale = () => {
 	const local = getLocales()[0]?.languageCode;
-	console.log("local", local);
 	return local ?? "en";
 };
 
