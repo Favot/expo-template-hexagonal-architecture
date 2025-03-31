@@ -1,7 +1,8 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { View } from "react-native";
-import { Avatar, AvatarFallback, AvatarImage } from "./avatar";
-import { Text } from "./text";
+import { Text } from "../text";
+import { Avatar, AvatarFallback, AvatarImage } from "./index";
+
 const meta: Meta<typeof Avatar> = {
 	title: "Atoms/Avatar",
 	component: Avatar,
