@@ -14,11 +14,11 @@ import { useRef, useState } from "react";
 import { I18nextProvider, useTranslation } from "react-i18next";
 import { Platform } from "react-native";
 import { ThemeToggle } from "~/components/ThemeToggle";
+import { useIsomorphicLayoutEffect } from "~/components/atoms/generic/hooks/useIsomorphicLayoutEffect";
 import i18n from "~/i18n/i18n";
 import { setAndroidNavigationBar } from "~/lib/android-navigation-bar";
 import { NAV_THEME } from "~/lib/constants";
 import { useColorScheme } from "~/lib/useColorScheme";
-import { useIsomorphicLayoutEffect } from "~/lib/useIsomorphicLayoutEffect";
 
 const LIGHT_THEME: Theme = {
 	...DefaultTheme,
