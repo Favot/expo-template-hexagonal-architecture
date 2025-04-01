@@ -21,11 +21,13 @@ export const FormInput = ({
 	return (
 		<View className="p-2">
 			<View>
-				<Text className="text-sm font-medium p-1">{label}</Text>
+				<Text className="p-1">{label}</Text>
 				<Input {...inputProps} value={value} onChangeText={onChangeText} />
 			</View>
 			{errorMessage ? (
-				<Text className="text-red-400 text-sm">{errorMessage}</Text>
+				<Text variant="caption2" className="p-2 text-destructive">
+					{errorMessage}
+				</Text>
 			) : null}
 		</View>
 	);
