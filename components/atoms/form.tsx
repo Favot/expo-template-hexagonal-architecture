@@ -23,9 +23,18 @@ export const FormInput = ({
 	onChange,
 	value,
 	...inputProps
-}: FormInputProps) => (
-	<View className={className}>
-		<Input {...inputProps} onBlur={onBlur} onChange={onChange} value={value} />
-		{error && <Text className="text-red-500">{error.message}</Text>}
-	</View>
-);
+}: FormInputProps) => {
+	return (
+		<View className={className}>
+			<Input
+				{...inputProps}
+				onBlur={onBlur}
+				onChange={onChange}
+				value={value}
+				aria-label={inputProps.placeholder}
+				testID={inputProps.testID}
+			/>
+			{error && <Text className="text-red-500">{error.message}</Text>}
+		</View>
+	);
+};
