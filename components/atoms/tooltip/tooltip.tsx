@@ -1,9 +1,11 @@
 import {
 	createContext,
 	forwardRef,
+	useCallback,
 	useContext,
 	useEffect,
 	useId,
+	useMemo,
 	useState,
 } from "react";
 import {
@@ -65,24 +67,30 @@ const Root = forwardRef<RootRef, RootProps>(
 		);
 		const [open, setOpen] = useState(false);
 
-		function onOpenChange(value: boolean) {
-			setOpen(value);
-			onOpenChangeProp?.(value);
-		}
+		const onOpenChange = useCallback(
+			(value: boolean) => {
+				setOpen(value);
+				onOpenChangeProp?.(value);
+			},
+			[onOpenChangeProp],
+		);
+
+		const contextValue = useMemo(
+			() => ({
+				open,
+				onOpenChange,
+				contentLayout,
+				nativeID,
+				setContentLayout,
+				setTriggerPosition,
+				triggerPosition,
+			}),
+			[open, onOpenChange, contentLayout, nativeID, triggerPosition],
+		);
 
 		const Component = asChild ? Slot.View : View;
 		return (
-			<RootContext.Provider
-				value={{
-					open,
-					onOpenChange,
-					contentLayout,
-					nativeID,
-					setContentLayout,
-					setTriggerPosition,
-					triggerPosition,
-				}}
-			>
+			<RootContext.Provider value={contextValue}>
 				<Component ref={ref} {...viewProps} />
 			</RootContext.Provider>
 		);
@@ -152,7 +160,7 @@ Trigger.displayName = "TriggerNativeTooltip";
 /**
  * @warning when using a custom `<PortalHost />`, you might have to adjust the Content's sideOffset to account for nav elements like headers.
  */
-function Portal({ forceMount, hostName, children }: PortalProps) {
+function Portal({ forceMount, hostName, children }: Readonly<PortalProps>) {
 	const value = useTooltipContext();
 
 	if (!value.triggerPosition) {
@@ -254,7 +262,7 @@ const Content = forwardRef<ContentRef, ContentProps>(
 				setContentLayout(null);
 				backHandler.remove();
 			};
-		}, []);
+		}, [onOpenChange, setContentLayout, setTriggerPosition]);
 
 		const positionStyle = useRelativePosition({
 			align,
@@ -285,7 +293,6 @@ const Content = forwardRef<ContentRef, ContentProps>(
 				ref={ref}
 				role="tooltip"
 				nativeID={nativeID}
-				aria-modal={true}
 				style={[positionStyle, style]}
 				onLayout={onLayout}
 				onStartShouldSetResponder={onStartShouldSetResponder}

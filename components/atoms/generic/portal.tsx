@@ -37,7 +37,9 @@ const removePortal = (hostName: string, name: string) => {
 	});
 };
 
-export function PortalHost({ name = DEFAULT_PORTAL_HOST }: { name?: string }) {
+export function PortalHost({
+	name = DEFAULT_PORTAL_HOST,
+}: Readonly<{ name?: string }>) {
 	const portalMap =
 		usePortal((state) => state.map).get(name) ??
 		new Map<string, React.ReactNode>();

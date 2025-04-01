@@ -1,4 +1,4 @@
-import { FeatureFlagKey } from "~/domain";
+import type { FeatureFlagKey } from "~/domain";
 import { getFeatureFlippingRegistry } from "./featureFlippingRegistry";
 
 export async function mockImplemSwitcher<T>({

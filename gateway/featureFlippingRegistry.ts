@@ -1,4 +1,4 @@
-import { FeatureFlippingService } from "~/domain";
+import type { FeatureFlippingService } from "~/domain";
 import { ffServiceEnvVarImplementation } from "./implementation/featureFlagKey/featureFlagService";
 
 type FeatureFlippingRegistry = {

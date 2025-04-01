@@ -31,8 +31,12 @@ const Pressable = React.forwardRef<
 	>(isTextChildren(children) ? <></> : children, {
 		...mergeProps(pressableSlotProps, children.props),
 		ref: forwardedRef
-			? composeRefs(forwardedRef, (children as any).ref)
-			: (children as any).ref,
+			? composeRefs(
+					forwardedRef,
+					(children.props as React.ComponentPropsWithRef<typeof RNPressable>)
+						.ref,
+				)
+			: (children.props as React.ComponentPropsWithRef<typeof RNPressable>).ref,
 	});
 });
 
@@ -53,8 +57,11 @@ const View = React.forwardRef<React.ElementRef<typeof RNView>, RNViewProps>(
 		>(isTextChildren(children) ? <></> : children, {
 			...mergeProps(viewSlotProps, children.props),
 			ref: forwardedRef
-				? composeRefs(forwardedRef, (children as any).ref)
-				: (children as any).ref,
+				? composeRefs(
+						forwardedRef,
+						(children.props as React.ComponentPropsWithRef<typeof RNView>).ref,
+					)
+				: (children.props as React.ComponentPropsWithRef<typeof RNView>).ref,
 		});
 	},
 );
@@ -76,8 +83,11 @@ const Text = React.forwardRef<React.ElementRef<typeof RNText>, RNTextProps>(
 		>(isTextChildren(children) ? <></> : children, {
 			...mergeProps(textSlotProps, children.props),
 			ref: forwardedRef
-				? composeRefs(forwardedRef, (children as any).ref)
-				: (children as any).ref,
+				? composeRefs(
+						forwardedRef,
+						(children.props as React.ComponentPropsWithRef<typeof RNText>).ref,
+					)
+				: (children.props as React.ComponentPropsWithRef<typeof RNText>).ref,
 		});
 	},
 );
@@ -105,8 +115,11 @@ const Image = React.forwardRef<
 	>(isTextChildren(children) ? <></> : children, {
 		...mergeProps(imageSlotProps, children.props),
 		ref: forwardedRef
-			? composeRefs(forwardedRef, (children as any).ref)
-			: (children as any).ref,
+			? composeRefs(
+					forwardedRef,
+					(children.props as React.ComponentPropsWithRef<typeof RNImage>).ref,
+				)
+			: (children.props as React.ComponentPropsWithRef<typeof RNImage>).ref,
 	});
 });
 
@@ -114,25 +127,35 @@ Image.displayName = "SlotImage";
 
 export { Image, Pressable, Text, View };
 
-// This project uses code from WorkOS/Radix Primitives.
-// The code is licensed under the MIT License.
-// https://github.com/radix-ui/primitives/tree/main
-
-function composeRefs<T>(...refs: (React.Ref<T> | undefined)[]) {
-	return (node: T) =>
-		refs.forEach((ref) => {
+function composeRefs<T>(...refs: (React.LegacyRef<T> | undefined)[]) {
+	return (node: T) => {
+		for (const ref of refs) {
 			if (typeof ref === "function") {
 				ref(node);
 			} else if (ref != null) {
 				(ref as React.MutableRefObject<T>).current = node;
 			}
-		});
+		}
+	};
 }
 
-type AnyProps = Record<string, any>;
+type AnyProps = Record<string, unknown>;
+
+function handleEventProp(
+	propName: string,
+	slotPropValue: ((...args: unknown[]) => void) | undefined,
+	childPropValue: ((...args: unknown[]) => void) | undefined,
+) {
+	if (slotPropValue && childPropValue) {
+		return (...args: unknown[]) => {
+			childPropValue(...args);
+			slotPropValue(...args);
+		};
+	}
+	return slotPropValue || childPropValue;
+}
 
 function mergeProps(slotProps: AnyProps, childProps: AnyProps) {
-	// all child props should override
 	const overrideProps = { ...childProps };
 
 	for (const propName in childProps) {
@@ -141,21 +164,16 @@ function mergeProps(slotProps: AnyProps, childProps: AnyProps) {
 
 		const isHandler = /^on[A-Z]/.test(propName);
 		if (isHandler) {
-			// if the handler exists on both, we compose them
-			if (slotPropValue && childPropValue) {
-				overrideProps[propName] = (...args: unknown[]) => {
-					childPropValue(...args);
-					slotPropValue(...args);
-				};
-			}
-			// but if it exists only on the slot, we use only this one
-			else if (slotPropValue) {
-				overrideProps[propName] = slotPropValue;
-			}
-		}
-		// if it's `style`, we merge them
-		else if (propName === "style") {
-			overrideProps[propName] = combineStyles(slotPropValue, childPropValue);
+			overrideProps[propName] = handleEventProp(
+				propName,
+				slotPropValue as ((...args: unknown[]) => void) | undefined,
+				childPropValue as ((...args: unknown[]) => void) | undefined,
+			);
+		} else if (propName === "style") {
+			overrideProps[propName] = combineStyles(
+				slotPropValue as Style,
+				childPropValue as Style,
+			);
 		} else if (propName === "className") {
 			overrideProps[propName] = [slotPropValue, childPropValue]
 				.filter(Boolean)

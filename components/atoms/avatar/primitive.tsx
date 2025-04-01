@@ -32,8 +32,12 @@ const Root = React.forwardRef<RootRef, RootProps>(
 	({ asChild, alt, ...viewProps }, ref) => {
 		const [status, setStatus] = React.useState<AvatarState>("error");
 		const Component = asChild ? Slot.View : View;
+		const contextValue = React.useMemo(
+			() => ({ alt, status, setStatus }),
+			[alt, status],
+		);
 		return (
-			<RootContext.Provider value={{ alt, status, setStatus }}>
+			<RootContext.Provider value={contextValue}>
 				<Component ref={ref} {...viewProps} />
 			</RootContext.Provider>
 		);
@@ -81,7 +85,7 @@ const Image = React.forwardRef<ImageRef, ImageProps>(
 				onLoadingStatusChange?.("loaded");
 				onLoadProps?.(e);
 			},
-			[onLoadProps],
+			[onLoadProps, onLoadingStatusChange, setStatus],
 		);
 
 		const onError = useCallback(
@@ -90,7 +94,7 @@ const Image = React.forwardRef<ImageRef, ImageProps>(
 				onLoadingStatusChange?.("error");
 				onErrorProps?.(e);
 			},
-			[onErrorProps],
+			[onErrorProps, onLoadingStatusChange, setStatus],
 		);
 
 		if (status === "error") {

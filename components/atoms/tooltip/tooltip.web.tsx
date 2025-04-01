@@ -8,7 +8,6 @@ import type {
 	ContentRef,
 	OverlayProps,
 	OverlayRef,
-	PortalProps,
 	RootProps,
 	RootRef,
 	TriggerProps,
@@ -34,14 +33,21 @@ const Root = React.forwardRef<RootRef, RootProps>(
 	) => {
 		const [open, setOpen] = React.useState(false);
 
-		function onOpenChange(value: boolean) {
-			setOpen(value);
-			onOpenChangeProp?.(value);
-		}
+		const onOpenChange = React.useCallback(
+			(value: boolean) => {
+				setOpen(value);
+				onOpenChangeProp?.(value);
+			},
+			[onOpenChangeProp],
+		);
 
 		const Component = asChild ? Slot.View : View;
+		const contextValue = React.useMemo(
+			() => ({ open, onOpenChange }),
+			[open, onOpenChange],
+		);
 		return (
-			<RootContext.Provider value={{ open, onOpenChange }}>
+			<RootContext.Provider value={contextValue}>
 				<Tooltip.Provider
 					delayDuration={delayDuration}
 					skipDelayDuration={skipDelayDuration}
@@ -119,13 +125,19 @@ const Trigger = React.forwardRef<TriggerRef, TriggerProps>(
 
 Trigger.displayName = "TriggerWebTooltip";
 
-function Portal({ forceMount, container, children }: PortalProps) {
+function Portal({
+	forceMount,
+	container,
+	children,
+}: {
+	readonly forceMount?: true;
+	readonly container?: HTMLElement;
+	readonly children: React.ReactNode;
+}) {
 	return (
-		<Tooltip.Portal
-			forceMount={forceMount}
-			children={children}
-			container={container}
-		/>
+		<Tooltip.Portal forceMount={forceMount} container={container}>
+			{children}
+		</Tooltip.Portal>
 	);
 }
 

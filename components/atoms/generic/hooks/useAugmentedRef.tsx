@@ -3,8 +3,8 @@ import { useImperativeHandle } from "react";
 
 interface AugmentRefProps<T> {
 	ref: React.Ref<T>;
-	methods?: Record<string, (...args: any[]) => any>;
-	deps?: any[];
+	methods?: Record<string, (...args: unknown[]) => unknown>;
+	deps?: unknown[];
 }
 
 export function useAugmentedRef<T>({
@@ -24,7 +24,7 @@ export function useAugmentedRef<T>({
 				...methods,
 			};
 		},
-		deps,
+		[...deps, methods],
 	);
 	return augmentedRef;
 }

@@ -58,7 +58,7 @@ function useUncontrolledState<T>({
 			handleChange(value as T);
 			prevValueRef.current = value;
 		}
-	}, [value, prevValueRef, handleChange]);
+	}, [value, handleChange]);
 
 	return uncontrolledState;
 }
@@ -67,7 +67,7 @@ function useUncontrolledState<T>({
  * A custom hook that converts a callback to a ref to avoid triggering re-renders when passed as a
  * prop or avoid re-executing effects when passed as a dependency
  */
-function useCallbackRef<T extends (...args: any[]) => any>(
+function useCallbackRef<T extends (...args: Parameters<T>) => void>(
 	callback: T | undefined,
 ): T {
 	const callbackRef = React.useRef(callback);

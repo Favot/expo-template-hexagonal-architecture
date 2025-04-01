@@ -9,8 +9,9 @@ const ProgressContext = React.createContext<RootProps | null>(null);
 const Root = React.forwardRef<RootRef, RootProps>(
 	({ asChild, value, max, getValueLabel, ...props }, ref) => {
 		const Component = asChild ? Slot.View : View;
+		const contextValue = React.useMemo(() => ({ value, max }), [value, max]);
 		return (
-			<ProgressContext.Provider value={{ value, max }}>
+			<ProgressContext.Provider value={contextValue}>
 				<Progress.Root
 					value={value}
 					max={max}

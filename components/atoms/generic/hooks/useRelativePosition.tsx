@@ -61,8 +61,9 @@ export function useRelativePosition({
 		insets,
 		triggerPosition,
 		contentLayout,
-		dimensions.width,
-		dimensions.height,
+		dimensions,
+		disablePositioningStyle,
+		sideOffset,
 	]);
 }
 

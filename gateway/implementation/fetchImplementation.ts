@@ -1,7 +1,7 @@
 import {
 	AuthenticationError,
 	NetworkError,
-	RestClient,
+	type RestClient,
 } from "../services/restClient";
 
 export const fetchClient: RestClient = {
