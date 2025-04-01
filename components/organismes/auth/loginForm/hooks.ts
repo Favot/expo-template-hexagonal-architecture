@@ -1,5 +1,9 @@
+import { createFormHookContexts } from "@tanstack/react-form";
 import { useTranslation } from "react-i18next";
 import { z } from "zod";
+
+export const { fieldContext, formContext, useFieldContext, useFormContext } =
+	createFormHookContexts();
 
 export const useBuildLoginForm = () => {
 	const { t } = useTranslation();

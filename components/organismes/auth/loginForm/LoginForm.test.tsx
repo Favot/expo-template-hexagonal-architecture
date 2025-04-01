@@ -47,7 +47,7 @@ describe("LoginForm", () => {
 		).toBeVisible();
 	});
 
-	it.skip("should call onSubmit with correct data when form is submitted with valid inputs", async () => {
+	it("should call onSubmit with correct data when form is submitted with valid inputs", async () => {
 		const consoleSpy = jest.spyOn(global.console, "log");
 
 		const { getByPlaceholderText, getByRole } = renderLoginForm();
@@ -55,19 +55,12 @@ describe("LoginForm", () => {
 		const emailInput = getByPlaceholderText("Email");
 		const passwordInput = getByPlaceholderText("Password");
 
-		// Clear any existing values first
-		await user.clear(emailInput);
-		await user.clear(passwordInput);
-
-		// Type the values
 		await user.type(emailInput, "test@example.com");
 		await user.type(passwordInput, "password123");
 
-		// Submit the form
 		const submitButton = getByRole("button", { name: "Submit" });
 		await user.press(submitButton);
 
-		// Wait for the console.log to be called with the correct data
 		await waitFor(() => {
 			expect(consoleSpy).toHaveBeenCalledWith({
 				email: "test@example.com",
