@@ -1,8 +1,10 @@
 {
   "auth": {
+    "common": {
+      "logout": "Déconnexion"
+    },
     "email": "Email",
     "password": "Mot de passe",
-    "signIn": "Se connecter",
     "signOut": "Se déconnecter"
   },
   "common": {

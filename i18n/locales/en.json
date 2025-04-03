@@ -1,5 +1,8 @@
 {
   "auth": {
+    "common": {
+      "logout": "Logout"
+    },
     "email": "Email",
     "password": "Password",
     "signIn": "Sign In",
