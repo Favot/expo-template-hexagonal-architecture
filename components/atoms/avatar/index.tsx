@@ -10,47 +10,53 @@ import type {
 	RootRef,
 } from "./types";
 
-const AvatarPrimitiveRoot = Root;
-const AvatarPrimitiveImage = Image;
-const AvatarPrimitiveFallback = Fallback;
-
 const Avatar = React.forwardRef<RootRef, RootProps>(
-	({ className, ...props }, ref) => (
-		<AvatarPrimitiveRoot
-			ref={ref}
-			className={cn(
-				"relative flex h-10 w-10 shrink-0 overflow-hidden rounded-full",
-				className,
-			)}
-			{...props}
-		/>
-	),
+	({ alt, className, ...props }, ref) => {
+		return (
+			<Root
+				ref={ref}
+				alt={alt}
+				className={cn(
+					"relative flex h-10 w-10 shrink-0 overflow-hidden rounded-full",
+					className,
+				)}
+				{...props}
+			/>
+		);
+	},
 );
-Avatar.displayName = AvatarPrimitiveRoot.displayName;
+
+Avatar.displayName = Root.displayName;
 
 const AvatarImage = React.forwardRef<ImageRef, ImageProps>(
-	({ className, ...props }, ref) => (
-		<AvatarPrimitiveImage
-			ref={ref}
-			className={cn("aspect-square h-full w-full", className)}
-			{...props}
-		/>
-	),
+	({ className, ...props }, ref) => {
+		return (
+			<Image
+				ref={ref}
+				className={cn("aspect-square h-full w-full", className)}
+				{...props}
+			/>
+		);
+	},
 );
-AvatarImage.displayName = AvatarPrimitiveImage.displayName;
+
+AvatarImage.displayName = Image.displayName;
 
 const AvatarFallback = React.forwardRef<FallbackRef, FallbackProps>(
-	({ className, ...props }, ref) => (
-		<AvatarPrimitiveFallback
-			ref={ref}
-			className={cn(
-				"flex h-full w-full items-center justify-center rounded-full bg-muted",
-				className,
-			)}
-			{...props}
-		/>
-	),
+	({ className, ...props }, ref) => {
+		return (
+			<Fallback
+				ref={ref}
+				className={cn(
+					"bg-muted flex h-full w-full items-center justify-center rounded-full",
+					className,
+				)}
+				{...props}
+			/>
+		);
+	},
 );
-AvatarFallback.displayName = AvatarPrimitiveFallback.displayName;
+
+AvatarFallback.displayName = Fallback.displayName;
 
 export { Avatar, AvatarFallback, AvatarImage };
