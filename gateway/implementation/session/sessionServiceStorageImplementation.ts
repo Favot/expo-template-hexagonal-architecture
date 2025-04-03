@@ -1,4 +1,4 @@
-import { Session, SessionService } from "~/domain";
+import type { Session, SessionService } from "~/domain";
 import { getInfrastructureRegistry } from "~/gateway/infrastructureRegistry";
 
 const getSession = async (): Promise<Session | null> => {

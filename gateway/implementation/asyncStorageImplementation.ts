@@ -1,15 +1,15 @@
 import * as SecureStore from "expo-secure-store";
 import { Platform } from "react-native";
-import { StorageClient, StorageKey } from "../services/storageClient";
+import type { StorageClient, StorageKey } from "../services/storageClient";
 
 export const secureStorageClient: StorageClient = {
 	getItem: async (key: StorageKey) => {
 		try {
 			if (Platform.OS === "web") {
 				return localStorage.getItem(key);
-			} else {
-				return await SecureStore.getItemAsync(key);
 			}
+
+			return await SecureStore.getItemAsync(key);
 		} catch (error) {
 			console.error("Error reading from storage:", error);
 			throw error;

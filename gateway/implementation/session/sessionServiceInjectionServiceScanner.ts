@@ -1,5 +1,5 @@
-import { Session } from "~/domain";
-import { SessionService } from "~/domain/session/sessionService";
+import type { Session } from "~/domain";
+import type { SessionService } from "~/domain/session/sessionService";
 import { mockImplemSwitcher } from "~/gateway/implementationScannerUtils";
 import { sessionServiceInMemoryImplementation } from "./sessionServiceInMemoryImplementation";
 import { sessionServiceStorageImplementation } from "./sessionServiceStorageImplementation";

@@ -1,20 +1,21 @@
-import * as TooltipPrimitive from "@rn-primitives/tooltip";
-import * as React from "react";
+import { forwardRef } from "react";
 import { Platform, StyleSheet } from "react-native";
 import Animated, { FadeIn, FadeOut } from "react-native-reanimated";
 import { cn } from "~/lib/utils";
-import { TextClassContext } from "./text";
+import { TextClassContext } from "../text";
+import { Content, Overlay, Portal, Root, Trigger } from "./tooltip";
+import type { ContentProps, ContentRef } from "./types";
 
-const Tooltip = TooltipPrimitive.Root;
+const Tooltip = Root;
 
-const TooltipTrigger = TooltipPrimitive.Trigger;
+const TooltipTrigger = Trigger;
 
-const TooltipContent = React.forwardRef<
-	TooltipPrimitive.ContentRef,
-	TooltipPrimitive.ContentProps & { portalHost?: string }
+const TooltipContent = forwardRef<
+	ContentRef,
+	ContentProps & { portalHost?: string }
 >(({ className, sideOffset = 4, portalHost, ...props }, ref) => (
-	<TooltipPrimitive.Portal hostName={portalHost}>
-		<TooltipPrimitive.Overlay
+	<Portal hostName={portalHost}>
+		<Overlay
 			style={Platform.OS !== "web" ? StyleSheet.absoluteFill : undefined}
 		>
 			<Animated.View
@@ -22,7 +23,7 @@ const TooltipContent = React.forwardRef<
 				exiting={Platform.select({ web: undefined, default: FadeOut })}
 			>
 				<TextClassContext.Provider value="text-sm native:text-base text-popover-foreground">
-					<TooltipPrimitive.Content
+					<Content
 						ref={ref}
 						sideOffset={sideOffset}
 						className={cn(
@@ -33,9 +34,9 @@ const TooltipContent = React.forwardRef<
 					/>
 				</TextClassContext.Provider>
 			</Animated.View>
-		</TooltipPrimitive.Overlay>
-	</TooltipPrimitive.Portal>
+		</Overlay>
+	</Portal>
 ));
-TooltipContent.displayName = TooltipPrimitive.Content.displayName;
+TooltipContent.displayName = Content.displayName;
 
 export { Tooltip, TooltipContent, TooltipTrigger };

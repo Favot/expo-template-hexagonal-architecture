@@ -1,4 +1,4 @@
-import { FeatureFlagKey, FeatureFlippingService } from "~/domain";
+import type { FeatureFlagKey, FeatureFlippingService } from "~/domain";
 import { BOOLEAN_FEATURE_FLAG_MAP } from "~/lib/featureFlag";
 
 const isFeatureFlagActivated = async (

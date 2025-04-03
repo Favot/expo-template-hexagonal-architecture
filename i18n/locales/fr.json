@@ -1,20 +1,29 @@
 {
-	"common": {
-		"welcome": "Bienvenue",
-		"loading": "Chargement...",
-		"error": "Erreur",
-		"success": "Succès"
-	},
-	"auth": {
-		"signIn": "Se connecter",
-		"signOut": "Se déconnecter",
-		"email": "Email",
-		"password": "Mot de passe"
-	},
-	"settings": {
-		"title": "Paramètres",
-		"language": "Langue",
-		"theme": "Thème",
-		"darkMode": "Mode sombre"
-	}
+  "auth": {
+    "email": "Email",
+    "password": "Mot de passe",
+    "signIn": "Se connecter",
+    "signOut": "Se déconnecter"
+  },
+  "common": {
+    "error": "Erreur",
+    "loading": "Chargement...",
+    "success": "Succès",
+    "welcome": "Bienvenue"
+  },
+  "form": {
+    "email": {
+      "invalidAdress": "Adresse e-mail non valide"
+    },
+    "password": {
+      "lenghtRequirement": "Le mot de passe doit comporter au moins 8 caractères",
+      "missMatch": "Les mots de passe ne correspondent pas"
+    }
+  },
+  "settings": {
+    "darkMode": "Mode sombre",
+    "language": "Langue",
+    "theme": "Thème",
+    "title": "Paramètres"
+  }
 }

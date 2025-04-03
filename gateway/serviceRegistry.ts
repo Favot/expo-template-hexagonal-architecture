@@ -1,4 +1,4 @@
-import { SessionService } from "~/domain";
+import type { SessionService } from "~/domain";
 import { sessionImplementation } from "./implementation/session/sessionServiceInjectionServiceScanner";
 
 export type ServiceRegistry = {
