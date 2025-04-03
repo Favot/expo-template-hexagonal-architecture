@@ -7,14 +7,15 @@ import {
 	ThemeProvider,
 } from "@react-navigation/native";
 import { PortalHost } from "@rn-primitives/portal";
-import { Stack } from "expo-router";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { Slot } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import * as React from "react";
 import { useRef, useState } from "react";
-import { I18nextProvider, useTranslation } from "react-i18next";
+import { I18nextProvider } from "react-i18next";
 import { Platform } from "react-native";
-import { ThemeToggle } from "~/components/ThemeToggle";
 import { useIsomorphicLayoutEffect } from "~/components/atoms/generic/hooks/useIsomorphicLayoutEffect";
+import { SessionProvider } from "~/context/AuthContext";
 import i18n from "~/i18n/i18n";
 import { setAndroidNavigationBar } from "~/lib/android-navigation-bar";
 import { NAV_THEME } from "~/lib/constants";
@@ -36,9 +37,9 @@ export {
 
 function RootLayout() {
 	const hasMounted = useRef(false);
+	const queryClient = new QueryClient();
 	const { colorScheme, isDarkColorScheme } = useColorScheme();
 	const [isColorSchemeLoaded, setIsColorSchemeLoaded] = useState(false);
-	const { t } = useTranslation();
 
 	useIsomorphicLayoutEffect(() => {
 		if (hasMounted.current) {
@@ -61,17 +62,13 @@ function RootLayout() {
 	return (
 		<I18nextProvider i18n={i18n}>
 			<ThemeProvider value={isDarkColorScheme ? DARK_THEME : LIGHT_THEME}>
-				<StatusBar style={isDarkColorScheme ? "light" : "dark"} />
-				<Stack>
-					<Stack.Screen
-						name="index"
-						options={{
-							title: t("common.welcome"),
-							headerRight: () => <ThemeToggle />,
-						}}
-					/>
-				</Stack>
-				<PortalHost />
+				<QueryClientProvider client={queryClient}>
+					<SessionProvider>
+						<StatusBar style={isDarkColorScheme ? "light" : "dark"} />
+						<Slot />
+						<PortalHost />
+					</SessionProvider>
+				</QueryClientProvider>
 			</ThemeProvider>
 		</I18nextProvider>
 	);
