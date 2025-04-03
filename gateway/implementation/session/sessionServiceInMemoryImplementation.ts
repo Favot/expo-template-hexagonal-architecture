@@ -4,7 +4,6 @@ const getSession = async (): Promise<Session | null> => {
 	return new Promise((resolve) => {
 		setTimeout(() => {
 			const session: Session = {
-				state: "authenticated",
 				tokens: {
 					accessToken: "token",
 					tokenType: "Bearer",
@@ -26,10 +25,10 @@ const getSession = async (): Promise<Session | null> => {
 	});
 };
 
-const setSession = async (session: Session | null): Promise<void> => {
+const setSession = async (session: Session | null): Promise<Session | null> => {
 	return new Promise((resolve) => {
 		setTimeout(() => {
-			resolve();
+			resolve(session);
 		}, 500);
 	});
 };

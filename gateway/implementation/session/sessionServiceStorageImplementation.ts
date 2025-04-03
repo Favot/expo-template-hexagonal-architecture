@@ -15,13 +15,15 @@ const getSession = async (): Promise<Session | null> => {
 	}
 };
 
-const setSession = async (session: Session | null): Promise<void> => {
+const setSession = async (session: Session | null): Promise<Session | null> => {
 	const { storageClient } = getInfrastructureRegistry();
 	if (session === null) {
 		await storageClient.removeItem("session");
-	} else {
-		await storageClient.setItem("session", JSON.stringify(session));
+		return null;
 	}
+
+	await storageClient.setItem("session", JSON.stringify(session));
+	return session;
 };
 
 const removeSession = async (): Promise<void> => {

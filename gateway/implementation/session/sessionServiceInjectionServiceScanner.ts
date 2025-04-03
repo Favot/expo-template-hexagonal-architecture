@@ -13,7 +13,7 @@ const getSession = async (): Promise<Session | null> => {
 	return implem();
 };
 
-const setSession = async (session: Session | null): Promise<void> => {
+const setSession = async (session: Session | null): Promise<Session | null> => {
 	const implem = await mockImplemSwitcher({
 		mockFF: "FF_SESSION_MOCK",
 		realImplem: sessionServiceStorageImplementation.setSession,
