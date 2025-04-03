@@ -1,15 +1,13 @@
-import {
-	Card,
-	CardContent,
-	CardFooter,
-	CardHeader,
-	CardTitle,
-} from "~/components/atoms";
+import { View } from "react-native";
+import { Card, CardContent, CardFooter } from "~/components/atoms";
+import { useSession } from "~/context/AuthContext";
 import { FormField, useLoginForm } from "./componentBuilder";
 import { useBuildLoginForm } from "./hooks";
 
 export default function LoginForm() {
 	const formSchema = useBuildLoginForm();
+
+	const { login, isLoading } = useSession();
 
 	const form = useLoginForm({
 		defaultValues: {
@@ -20,17 +18,14 @@ export default function LoginForm() {
 			onSubmit: formSchema,
 		},
 		onSubmit: ({ value }) => {
-			console.log(value);
+			login(value);
 		},
 	});
 
 	return (
-		<Card>
-			<CardHeader>
-				<CardTitle>Login</CardTitle>
-			</CardHeader>
+		<Card className="w-full">
 			<CardContent>
-				<form>
+				<View>
 					<form.AppField name="email">
 						{() => (
 							<FormField label="Email" inputProps={{ placeholder: "Email" }} />
@@ -44,7 +39,7 @@ export default function LoginForm() {
 							/>
 						)}
 					</form.AppField>
-				</form>
+				</View>
 			</CardContent>
 			<CardFooter>
 				<form.AppForm>
@@ -52,6 +47,7 @@ export default function LoginForm() {
 						label="Submit"
 						testID="submitButton"
 						onPress={() => form.handleSubmit()}
+						buttonProps={{ disabled: isLoading, title: "Loading..." }}
 					/>
 				</form.AppForm>
 			</CardFooter>

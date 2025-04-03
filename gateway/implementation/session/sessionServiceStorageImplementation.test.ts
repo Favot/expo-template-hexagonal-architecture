@@ -1,5 +1,6 @@
 import type { Session } from "~/domain";
 import * as infrastructureRegistry from "~/gateway/infrastructureRegistry";
+import type { RestClient } from "~/gateway/services/restClient";
 import { sessionServiceStorageImplementation } from "./sessionServiceStorageImplementation";
 
 // Mock the infrastructure registry
@@ -12,11 +13,11 @@ describe("sessionServiceStorageImplementation", () => {
 		getItem: jest.fn(),
 		setItem: jest.fn(),
 		removeItem: jest.fn(),
+		clear: jest.fn(),
 	};
 
 	// Mock session data
 	const mockSession: Session = {
-		state: "authenticated",
 		tokens: {
 			accessToken: "mock-access-token",
 			refreshToken: "mock-refresh-token",
@@ -42,7 +43,8 @@ describe("sessionServiceStorageImplementation", () => {
 			.mocked(infrastructureRegistry.getInfrastructureRegistry)
 			.mockReturnValue({
 				storageClient: mockStorageClient,
-			} as any);
+				restClient: {} as RestClient,
+			});
 		// Spy on console.error
 		jest.spyOn(console, "error").mockImplementation(() => {});
 	});

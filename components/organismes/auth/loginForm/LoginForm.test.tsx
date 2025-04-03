@@ -1,4 +1,4 @@
-import { DefaultTheme, ThemeProvider } from "@react-navigation/native";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import {
 	render,
 	screen,
@@ -10,22 +10,32 @@ import { I18nextProvider } from "react-i18next";
 import i18n from "~/i18n/i18n";
 import LoginForm from "./LoginForm";
 
+const mockLogin = jest.fn();
+
+jest.mock("~/context/AuthContext", () => ({
+	useSession: () => ({
+		login: mockLogin,
+		isLoading: false,
+	}),
+}));
+
 describe("LoginForm", () => {
-	const renderLoginForm = () =>
-		render(
-			<ThemeProvider value={DefaultTheme}>
+	const renderLoginForm = () => {
+		const queryClient = new QueryClient();
+
+		return render(
+			<QueryClientProvider client={queryClient}>
 				<I18nextProvider i18n={i18n}>
 					<LoginForm />
 				</I18nextProvider>
-			</ThemeProvider>,
+			</QueryClientProvider>,
 		);
+	};
 
 	const user = userEvent.setup();
 
 	it("should display all the correct elements", () => {
 		const { getByText, getByPlaceholderText } = renderLoginForm();
-
-		expect(getByText("Login")).toBeVisible();
 
 		expect(getByPlaceholderText("Email")).toBeVisible();
 		expect(getByPlaceholderText("Password")).toBeVisible();
@@ -47,9 +57,7 @@ describe("LoginForm", () => {
 		).toBeVisible();
 	});
 
-	it("should call onSubmit with correct data when form is submitted with valid inputs", async () => {
-		const consoleSpy = jest.spyOn(global.console, "log");
-
+	it("should call the auth service login when the form is submitted", async () => {
 		const { getByPlaceholderText, getByRole } = renderLoginForm();
 
 		const emailInput = getByPlaceholderText("Email");
@@ -62,12 +70,10 @@ describe("LoginForm", () => {
 		await user.press(submitButton);
 
 		await waitFor(() => {
-			expect(consoleSpy).toHaveBeenCalledWith({
+			expect(mockLogin).toHaveBeenCalledWith({
 				email: "test@example.com",
 				password: "password123",
 			});
 		});
-
-		consoleSpy.mockRestore();
 	});
 });

@@ -12,11 +12,13 @@ export const useBuildFormSchema = () => {
 		.object({
 			email: z.string().email({ message: t("form.email.invalidAdress") }),
 			password: z.string().min(8, t("form.password.lenghtRequirement")),
-			confirmPassword: z.string().min(8, t("form.password.lenghtRequirement")),
+			passwordConfirmation: z
+				.string()
+				.min(8, t("form.password.lenghtRequirement")),
 		})
-		.refine((data) => data.password === data.confirmPassword, {
+		.refine((data) => data.password === data.passwordConfirmation, {
 			message: t("form.password.missMatch"),
-			path: ["confirmPassword"],
+			path: ["passwordConfirmation"],
 		});
 };
 

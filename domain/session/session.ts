@@ -1,3 +1,5 @@
+import type { User } from "../user/user";
+
 export type TokenType = "Bearer" | "Basic";
 
 export type AuthTokens = {
@@ -8,23 +10,9 @@ export type AuthTokens = {
 	expiresAt?: Date;
 };
 
-export type UserProfile = {
-	id: string;
-	email: string;
-	firstName?: string;
-	lastName?: string;
-	displayName?: string;
-	avatarUrl?: string;
-	roles?: string[];
-	permissions?: string[];
-};
-
-export type SessionState = "authenticated" | "unauthenticated" | "loading";
-
 export interface Session {
-	state: SessionState;
 	tokens?: AuthTokens;
-	user?: UserProfile;
+	user?: User;
 	error?: {
 		code: string;
 		message: string;
