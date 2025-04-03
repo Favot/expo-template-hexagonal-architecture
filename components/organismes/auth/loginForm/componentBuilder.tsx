@@ -1,5 +1,5 @@
 import { createFormHook, useStore } from "@tanstack/react-form";
-import type { TextInputProps } from "react-native";
+import type { ButtonProps, TextInputProps } from "react-native";
 import { Button, Text } from "~/components/atoms";
 import { FormInput } from "~/components/molecules";
 import {
@@ -34,16 +34,23 @@ function SubmissionButton({
 	label,
 	onPress,
 	testID,
+	buttonProps,
 }: {
 	readonly label: string;
 	readonly onPress: () => void;
 	readonly testID: string;
+	readonly buttonProps?: ButtonProps;
 }) {
 	const form = useFormContext();
 	return (
 		<form.Subscribe selector={(state) => state.isSubmitting}>
 			{(isSubmitting) => (
-				<Button disabled={isSubmitting} onPress={onPress} testID={testID}>
+				<Button
+					{...buttonProps}
+					disabled={isSubmitting}
+					onPress={onPress}
+					testID={testID}
+				>
 					<Text>{label}</Text>
 				</Button>
 			)}
