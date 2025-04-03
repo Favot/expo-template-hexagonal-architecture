@@ -18,7 +18,7 @@ export const useBuildFormSchema = () => {
 		})
 		.refine((data) => data.password === data.passwordConfirmation, {
 			message: t("form.password.missMatch"),
-			path: ["confirmPassword"],
+			path: ["passwordConfirmation"],
 		});
 };
 
