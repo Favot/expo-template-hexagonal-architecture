@@ -1,4 +1,4 @@
-import { FeatureFlagKey } from "~/domain";
+import type { FeatureFlagKey } from "~/domain";
 
 const strToBoolean = (value: string | undefined): boolean =>
 	value?.toLowerCase() === "true";
