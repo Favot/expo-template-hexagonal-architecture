@@ -3,7 +3,8 @@
 	"main": "expo-router/entry",
 	"version": "1.0.0",
 	"scripts": {
-		"test": "jest --watchAll",
+		"test:watch": "jest --watchAll",
+		"test:ci": "jest --ci --coverage --maxWorkers=2",
 		"clean": "rm -rf .expo node_modules",
 		"postinstall": "npx tailwindcss -i ./global.css -o ./node_modules/.cache/nativewind/global.css",
 		"storybook-generate": "sb-rn-get-stories",

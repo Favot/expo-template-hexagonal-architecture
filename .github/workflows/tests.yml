@@ -1,0 +1,82 @@
+name: Tests
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+  # Add scheduled runs to catch issues with dependencies
+  schedule:
+    - cron: '0 0 * * 1' # Run weekly on Mondays
+
+jobs:
+  test:
+    name: Run Tests
+    runs-on: ubuntu-latest
+    
+    # Add timeout to prevent hanging jobs
+    timeout-minutes: 15
+
+    # Add environment variables if needed
+    env:
+      NODE_ENV: test
+      
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        fetch-depth: 0 # Fetch all history for better coverage reports
+    
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+        cache: 'npm'
+
+    # Cache node_modules
+    - name: Cache node_modules
+      uses: actions/cache@v4
+      id: node-modules-cache
+      with:
+        path: node_modules
+        key: ${{ runner.os }}-node-modules-${{ hashFiles('**/package-lock.json') }}
+        restore-keys: |
+          ${{ runner.os }}-node-modules-
+
+    # Cache Tailwind CSS output
+    - name: Cache Tailwind CSS
+      uses: actions/cache@v4
+      id: tailwind-cache
+      with:
+        path: node_modules/.cache/nativewind
+        key: ${{ runner.os }}-tailwind-${{ hashFiles('global.css', 'tailwind.config.js') }}
+        restore-keys: |
+          ${{ runner.os }}-tailwind-
+
+    # Only install if cache miss
+    - name: Install dependencies
+      if: steps.node-modules-cache.outputs.cache-hit != 'true'
+      run: npm ci
+
+    # Add type checking
+    - name: Type Check
+      run: npx tsc --noEmit
+      
+    # Add linting
+    - name: Lint
+      run: npx @biomejs/biome check .
+      
+    # Only generate Tailwind if cache miss
+    - name: Generate Tailwind CSS
+      if: steps.tailwind-cache.outputs.cache-hit != 'true'
+      run: npx tailwindcss -i ./global.css -o ./node_modules/.cache/nativewind/global.css
+    
+    - name: Run tests
+      run: npm run test:ci
+
+    # Upload coverage reports
+    - name: Upload coverage reports
+      uses: actions/upload-artifact@v4
+      with:
+        name: coverage-report
+        path: coverage/
+        retention-days: 14
