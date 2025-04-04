@@ -10,7 +10,9 @@
 		"ignore": [
 			"**/*.d.ts",
 			".storybook/storybook.requires.ts",
-			"babel.config.js"
+			"babel.config.js",
+			".expo/**",
+			"node_modules/**"
 		]
 	},
 	"formatter": {
