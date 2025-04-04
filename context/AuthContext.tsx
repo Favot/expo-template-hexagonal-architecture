@@ -61,7 +61,6 @@ export const useSessionStorageState = (): UseStateHook<Session | null> => {
 	const { mutate: getSessionMutation } = useMutation({
 		mutationFn: sessionService.getSession,
 		onSuccess: (data) => {
-			console.log("🚀 ~ getSessionMutation:", data);
 			setSession(data);
 		},
 	});
