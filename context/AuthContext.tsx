@@ -69,6 +69,11 @@ export const useSessionStorageState = (): UseStateHook<Session | null> => {
 		mutationFn: sessionService.setSession,
 		onSuccess: (value) => {
 			setSession(value);
+			if (!value) {
+				router.replace("/(noAuth)/Login");
+			}
+
+			router.replace("/(auth)");
 		},
 	});
 
@@ -77,7 +82,9 @@ export const useSessionStorageState = (): UseStateHook<Session | null> => {
 	}, [getSessionMutation]);
 
 	const setValue = useCallback(
-		(value: Session | null) => setSessionMutation(value),
+		(value: Session | null) => {
+			setSessionMutation(value);
+		},
 
 		[setSessionMutation],
 	);
@@ -94,7 +101,6 @@ export function SessionProvider({ children }: Readonly<PropsWithChildren>) {
 		mutationFn: authService.login,
 		onSuccess: (data) => {
 			setSession(data);
-			router.replace("/");
 		},
 	});
 
@@ -102,10 +108,6 @@ export function SessionProvider({ children }: Readonly<PropsWithChildren>) {
 		mutationFn: authService.signUp,
 		onSuccess: (data) => {
 			setSession(data);
-
-			if (!data) return;
-
-			router.replace("/");
 		},
 	});
 
@@ -113,7 +115,6 @@ export function SessionProvider({ children }: Readonly<PropsWithChildren>) {
 		mutationFn: authService.logout,
 		onSuccess: () => {
 			setSession(null);
-			router.replace("/(noAuth)/Login");
 		},
 	});
 

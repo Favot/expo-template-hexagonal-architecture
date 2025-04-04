@@ -22,6 +22,7 @@ const Pressable = React.forwardRef<
 
 	if (!React.isValidElement(children)) {
 		if (__DEV__) {
+			// biome-ignore lint/suspicious/noConsoleLog: <explanation>
 			console.log("Slot.Pressable - Invalid asChild element", children);
 		}
 		return null;
@@ -50,6 +51,7 @@ const View = React.forwardRef<React.ElementRef<typeof RNView>, RNViewProps>(
 
 		if (!React.isValidElement(children)) {
 			if (__DEV__) {
+				// biome-ignore lint/suspicious/noConsoleLog: <explanation>
 				console.log("Slot.View - Invalid asChild element", children);
 			}
 			return null;
@@ -78,6 +80,7 @@ const Text = React.forwardRef<React.ElementRef<typeof RNText>, RNTextProps>(
 
 		if (!React.isValidElement(children)) {
 			if (__DEV__) {
+				// biome-ignore lint/suspicious/noConsoleLog: <explanation>
 				console.log("Slot.Text - Invalid asChild element", children);
 			}
 			return null;
@@ -112,6 +115,7 @@ const Image = React.forwardRef<
 
 	if (!React.isValidElement(children)) {
 		if (__DEV__) {
+			// biome-ignore lint/suspicious/noConsoleLog: <explanation>
 			console.log("Slot.Image - Invalid asChild element", children);
 		}
 		return null;

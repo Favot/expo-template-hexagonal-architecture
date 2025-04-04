@@ -37,6 +37,8 @@ export function SignUpForm() {
 							inputProps={{
 								testID: "emailInput",
 								placeholder: "Email",
+								autoCapitalize: "none",
+								keyboardType: "email-address",
 							}}
 						/>
 					)}
@@ -49,6 +51,8 @@ export function SignUpForm() {
 								secureTextEntry: true,
 								testID: "passwordInput",
 								placeholder: "Password",
+								autoCapitalize: "none",
+								keyboardType: "visible-password",
 							}}
 						/>
 					)}
@@ -61,6 +65,7 @@ export function SignUpForm() {
 								secureTextEntry: true,
 								testID: "confirmPasswordInput",
 								placeholder: "Confirm Password",
+								keyboardType: "visible-password",
 							}}
 						/>
 					)}

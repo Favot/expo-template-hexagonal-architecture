@@ -10,7 +10,9 @@
 		"ignore": [
 			"**/*.d.ts",
 			".storybook/storybook.requires.ts",
-			"babel.config.js"
+			"babel.config.js",
+			".expo/**",
+			"node_modules/**"
 		]
 	},
 	"formatter": {
@@ -23,7 +25,10 @@
 	"linter": {
 		"enabled": true,
 		"rules": {
-			"recommended": true
+			"recommended": true,
+			"suspicious": {
+				"noConsoleLog": "error"
+			}
 		}
 	},
 	"javascript": {
