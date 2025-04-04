@@ -27,4 +27,4 @@ jobs:
       run: npx tailwindcss -i ./global.css -o ./node_modules/.cache/nativewind/global.css
     
     - name: Run tests
-      run: npm test -- --ci --coverage --maxWorkers=2 
+      run: npm test:ci
