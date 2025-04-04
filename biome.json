@@ -7,7 +7,11 @@
 	},
 	"files": {
 		"ignoreUnknown": false,
-		"ignore": []
+		"ignore": [
+			"**/*.d.ts",
+			".storybook/storybook.requires.ts",
+			"babel.config.js"
+		]
 	},
 	"formatter": {
 		"enabled": true,
