@@ -1,26 +1,22 @@
-import { Redirect } from "expo-router";
-import { useTranslation } from "react-i18next";
-import { View } from "react-native";
-import { Button, Text } from "~/components/atoms";
+import { Redirect, Slot } from "expo-router";
+import { SafeAreaView } from "react-native";
 import { useSession } from "~/context/AuthContext";
 export default function AppLayout() {
-	const { session, isLoading, logout } = useSession();
-	const { t } = useTranslation();
+	const { session, isLoading } = useSession();
 
 	if (isLoading) {
+		console.log("🚀 ~ AppLayout ~ isLoading:", isLoading);
 		return null;
 	}
 
 	if (!session) {
+		console.log("🚀 ~ AppLayout ~ session:", session);
 		return <Redirect href="/(noAuth)/Login" />;
 	}
 
 	return (
-		<View>
-			<Text>Hello</Text>
-			<Button onPress={logout}>
-				<Text>{t("auth.common.logout")}</Text>
-			</Button>
-		</View>
+		<SafeAreaView className="items-center justify-center">
+			<Slot />
+		</SafeAreaView>
 	);
 }
