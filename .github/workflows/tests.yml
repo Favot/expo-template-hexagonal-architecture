@@ -19,12 +19,36 @@ jobs:
       with:
         node-version: '18'
         cache: 'npm'
-    
+
+    # Cache node_modules
+    - name: Cache node_modules
+      uses: actions/cache@v4
+      id: node-modules-cache
+      with:
+        path: node_modules
+        key: ${{ runner.os }}-node-modules-${{ hashFiles('**/package-lock.json') }}
+        restore-keys: |
+          ${{ runner.os }}-node-modules-
+
+    # Cache Tailwind CSS output
+    - name: Cache Tailwind CSS
+      uses: actions/cache@v4
+      id: tailwind-cache
+      with:
+        path: node_modules/.cache/nativewind
+        key: ${{ runner.os }}-tailwind-${{ hashFiles('global.css', 'tailwind.config.js') }}
+        restore-keys: |
+          ${{ runner.os }}-tailwind-
+
+    # Only install if cache miss
     - name: Install dependencies
+      if: steps.node-modules-cache.outputs.cache-hit != 'true'
       run: npm ci
       
+    # Only generate Tailwind if cache miss
     - name: Generate Tailwind CSS
+      if: steps.tailwind-cache.outputs.cache-hit != 'true'
       run: npx tailwindcss -i ./global.css -o ./node_modules/.cache/nativewind/global.css
     
     - name: Run tests
-      run: npm test:ci
+      run: npm run test:ci
