@@ -1,10 +1,55 @@
+const IS_DEV = process.env.APP_VARIANT === "development";
+const IS_PREVIEW = process.env.APP_VARIANT === "preview";
+
+type AppConfigKey =
+	| "APP_BUNDLE_ID"
+	| "APP_NAME"
+	| "APP_SLUG"
+	| "APP_VERSION"
+	| "APP_PACKAGE_NAME"
+	| "APP_SCHEME";
+const getAppConfig = (
+	key: AppConfigKey,
+	options: {
+		devSuffix?: string;
+		previewSuffix?: string;
+	} = {},
+) => {
+	const { devSuffix = ".dev", previewSuffix = ".preview" } = options;
+
+	if (IS_DEV) {
+		return `${process.env[key]}${devSuffix}`;
+	}
+
+	if (IS_PREVIEW && previewSuffix) {
+		return `${process.env[key]}${previewSuffix}`;
+	}
+
+	return `${process.env[key]}`;
+};
+
+// Use the generic function for each specific case
+export const getAppBundleId = () => getAppConfig("APP_BUNDLE_ID");
+export const getAppName = () =>
+	getAppConfig("APP_NAME", {
+		devSuffix: " (Dev)",
+		previewSuffix: " (Preview)",
+	});
+export const getAppSlug = () => getAppConfig("APP_SLUG", { previewSuffix: "" });
+export const getAppVersion = () => getAppConfig("APP_VERSION");
+export const getAppPackageName = () =>
+	getAppConfig("APP_PACKAGE_NAME", { previewSuffix: "" });
+
+export const getAppScheme = () =>
+	getAppConfig("APP_SCHEME", { previewSuffix: "" });
+
 export default {
-	name: "expo-template-hexagonal-architecture",
-	slug: "expo-template-hexagonal-architecture",
-	version: "1.0.0",
+	name: getAppName(),
+	slug: getAppSlug(),
+	version: getAppVersion(),
 	orientation: "portrait",
 	icon: "./assets/images/icon.png",
-	scheme: "myapp",
+	scheme: getAppScheme(),
 	userInterfaceStyle: "automatic",
 	newArchEnabled: true,
 	splash: {
@@ -15,12 +60,14 @@ export default {
 	assetBundlePatterns: ["**/*"],
 	ios: {
 		supportsTablet: true,
+		bundleIdentifier: getAppBundleId(),
 	},
 	android: {
 		adaptiveIcon: {
 			foregroundImage: "./assets/images/adaptive-icon.png",
 			backgroundColor: "#ffffff",
 		},
+		package: getAppPackageName(),
 	},
 	web: {
 		bundler: "metro",
