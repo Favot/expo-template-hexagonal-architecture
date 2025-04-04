@@ -3,16 +3,18 @@
 	"main": "expo-router/entry",
 	"version": "1.0.0",
 	"scripts": {
-		"dev": "expo start -c",
-		"dev:web": "expo start -c --web",
-		"dev:android": "expo start -c --android",
-		"android": "expo start -c --android",
-		"ios": "expo start -c --ios",
-		"web": "expo start -c --web",
 		"test": "jest --watchAll",
 		"clean": "rm -rf .expo node_modules",
 		"postinstall": "npx tailwindcss -i ./global.css -o ./node_modules/.cache/nativewind/global.css",
-		"storybook-generate": "sb-rn-get-stories"
+		"storybook-generate": "sb-rn-get-stories",
+		"dev:brandA": "./scripts/loadConfig.sh brandA && expo start -c",
+		"dev:brandB": "./scripts/loadConfig.sh brandB && expo start -c",
+		"dev:brandA:android": "./scripts/loadConfig.sh brandA && expo start -c --android",
+		"dev:brandB:android": "./scripts/loadConfig.sh brandB && expo start -c --android",
+		"dev:brandA:ios": "./scripts/loadConfig.sh brandA && expo start -c --ios",
+		"dev:brandB:ios": "./scripts/loadConfig.sh brandB && expo start -c --ios",
+		"dev:brandA:web": "./scripts/loadConfig.sh brandA && expo start -c --web",
+		"dev:brandB:web": "./scripts/loadConfig.sh brandB && expo start -c --web"
 	},
 	"jest": {
 		"preset": "jest-expo"
