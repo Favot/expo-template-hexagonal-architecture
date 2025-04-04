@@ -18,16 +18,16 @@ import { useIsomorphicLayoutEffect } from "~/components/atoms/generic/hooks/useI
 import { SessionProvider } from "~/context/AuthContext";
 import i18n from "~/i18n/i18n";
 import { setAndroidNavigationBar } from "~/lib/android-navigation-bar";
-import { NAV_THEME } from "~/lib/constants";
+import { COLOR } from "~/lib/colors";
 import { useColorScheme } from "~/lib/useColorScheme";
 
 const LIGHT_THEME: Theme = {
 	...DefaultTheme,
-	colors: NAV_THEME.light,
+	colors: COLOR.light,
 };
 const DARK_THEME: Theme = {
 	...DarkTheme,
-	colors: NAV_THEME.dark,
+	colors: COLOR.dark,
 };
 
 export {
